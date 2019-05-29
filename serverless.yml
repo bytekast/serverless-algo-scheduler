@@ -66,6 +66,9 @@ functions:
           rate: cron(0/1 * * * ? *) # https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
           enabled: true
 
+  authorizer:
+    handler: authorizerc
+
   runner:
     handler: job
     timeout: 30
