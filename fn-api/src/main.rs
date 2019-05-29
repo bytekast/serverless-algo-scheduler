@@ -12,7 +12,6 @@ use lambda_runtime::{error::HandlerError, Context};
 
 use rusoto_core::Region;
 use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput};
-use serde_json::json;
 use uuid::Uuid;
 
 use models::Schedule;
@@ -24,7 +23,6 @@ fn main() {
 fn router(request: Request, context: Context) -> Result<impl IntoResponse, HandlerError> {
     println!("{:?}", request);
     match (request.method().as_str(), request.uri().path()) {
-        ("GET", _) => list_user_schedules(request, context),
         ("POST", _) => save_user_schedules(request, context),
         _ => not_allowed(request, context),
     }
@@ -72,10 +70,4 @@ fn save_user_schedules(request: Request, _: Context) -> Result<Response<Body>, H
             .body(e.to_string().into())
             .expect("err creating response")),
     }
-}
-
-fn list_user_schedules(request: Request, _: Context) -> Result<Response<Body>, HandlerError> {
-    println!("{:?}", request);
-    let username = request.path_parameters().get("username").map(String::from);
-    Ok(json!(Schedule::get_schedules_by_username(username.unwrap())).into_response())
 }
