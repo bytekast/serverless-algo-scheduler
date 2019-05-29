@@ -20,20 +20,8 @@ provider:
       Action:
         - "dynamodb:*"
       Resource: arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:service}-${self:provider.stage}-*
-    - Effect: "Allow"
-      Action:
-        - "sqs:*"
-      Resource: arn:aws:sqs:${self:provider.region}:#{AWS::AccountId}:${self:service}-${self:provider.stage}-job-queue
-    - Effect: "Allow"
-      Action:
-        - "sqs:*"
-      Resource: arn:aws:sqs:${self:provider.region}:#{AWS::AccountId}:${self:service}-${self:provider.stage}-result-queue
   environment:
     USER_SCHEDULE_TABLE_NAME: ${self:service}-${self:provider.stage}-user-schedule
-    JOB_QUEUE_URL: https://sqs.${self:provider.region}.amazonaws.com/#{AWS::AccountId}/${self:service}-${self:provider.stage}-job-queue
-    RESULT_QUEUE_URL: https://sqs.${self:provider.region}.amazonaws.com/#{AWS::AccountId}/${self:service}-${self:provider.stage}-result-queue
-  apiKeys:
-    - ${self:service}-${self:provider.stage}
 
 package:
   individually: true
@@ -56,25 +44,6 @@ functions:
           path: /user/{username}/schedules
           method: POST
 
-  scheduler:
-    handler: job
-    timeout: 30
-    environment:
-      FUNCTION: scheduler
-    events:
-      - schedule:
-          rate: cron(0/1 * * * ? *) # https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
-          enabled: true
-
-  runner:
-    handler: job
-    timeout: 30
-    environment:
-      FUNCTION: runner
-    events:
-      - sqs: arn:aws:sqs:${self:provider.region}:#{AWS::AccountId}:${self:service}-${self:provider.stage}-job-queue
-    reservedConcurrency: 5
-
 resources:
   Resources:
     UserSchedule:
@@ -94,13 +63,3 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 4
           WriteCapacityUnits: 2
-
-    JobQueue:
-      Type: "AWS::SQS::Queue"
-      Properties:
-        QueueName: ${self:service}-${self:provider.stage}-job-queue
-
-    ResultQueue:
-      Type: "AWS::SQS::Queue"
-      Properties:
-        QueueName: ${self:service}-${self:provider.stage}-result-queue
