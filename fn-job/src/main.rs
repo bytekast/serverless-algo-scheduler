@@ -26,6 +26,7 @@ fn router(event: Value, context: Context) -> Result<Value, HandlerError> {
 fn scheduler(event: Value, _: Context) -> Result<Value, HandlerError> {
     println!("{:?}", event);
     let schedules_to_run = Schedule::get_enabled_schedules();
+    println!("Schedules to Run: {}", schedules_to_run.len());
     for schedule in schedules_to_run {
         match serde_json::to_string(&schedule) {
             Ok(json) => {
