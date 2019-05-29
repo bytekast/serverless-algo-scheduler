@@ -77,12 +77,12 @@ region = us-east-1
 ```
 
 
-### Build
+## 🦀 Build
 
 Run `cargo build`
 
 
-### Deploy
+## 🛵 Deploy
 
 First, make sure docker is running.
 
