@@ -58,7 +58,7 @@ functions:
 
   scheduler:
     handler: job
-    timeout: 900
+    timeout: 30
     environment:
       FUNCTION: scheduler
     events:
@@ -68,7 +68,7 @@ functions:
 
   runner:
     handler: job
-    timeout: 900
+    timeout: 30
     environment:
       FUNCTION: runner
     events:
