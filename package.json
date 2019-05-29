@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "serverless": "^1.41.1",
+    "serverless-pseudo-parameters": "^2.4.0",
+    "serverless-rust": "^0.3.4"
+  },
+  "name": "scheduler-api"
+}
