@@ -64,7 +64,7 @@ functions:
     events:
       - schedule:
           rate: cron(0/1 * * * ? *) # https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
-          enabled: false
+          enabled: true
 
   authorizer:
     handler: authorizer
@@ -95,7 +95,7 @@ resources:
           - AttributeName: id
             KeyType: RANGE
         ProvisionedThroughput:
-          ReadCapacityUnits: 4
+          ReadCapacityUnits: 2
           WriteCapacityUnits: 2
 
     JobQueue:

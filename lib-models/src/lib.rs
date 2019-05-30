@@ -52,7 +52,7 @@ impl Schedule {
             algorithm: item
                 .get("algorithm")
                 .and_then(|x| x.s.to_owned())
-                .expect("missing requred algorithm"),
+                .expect("missing required algorithm"),
             input: item
                 .get("input")
                 .and_then(|x| x.s.to_owned())
@@ -73,7 +73,7 @@ impl Schedule {
         }
     }
 
-    pub fn get_enabled_schedules() -> Vec<Schedule> {
+    pub fn get_schedules_to_run() -> Vec<Schedule> {
         let attribute_map = hashmap! {
             String::from(":enabled") => AttributeValue { bool: Some(true), ..Default::default() }
         };
@@ -114,7 +114,8 @@ impl Schedule {
             consistent_read: Some(true),
             key_condition_expression: Some(String::from("username = :username")),
             expression_attribute_values: Some(attribute_map),
-            table_name: env::var("USER_SCHEDULE_TABLE_NAME").expect("env variable not found"),
+            table_name: env::var("USER_SCHEDULE_TABLE_NAME")
+                .expect("env variable USER_SCHEDULE_TABLE_NAME not found"),
             ..Default::default()
         };
 
