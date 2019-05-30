@@ -57,13 +57,12 @@ fn save_user_schedules(request: Request, _: Context) -> Result<Response<Body>, H
                 };
 
                 match client.put_item(input).sync() {
-                    Ok(_) => {
-                        let mut resp = serde_json::json!(schedule).into_response();
-                        *resp.status_mut() = StatusCode::CREATED;
-                        Ok(resp)
-                    }
+                    Ok(_) => Ok(Response::builder()
+                        .status(StatusCode::CREATED)
+                        .body(serde_json::json!(schedule).to_string().into())
+                        .expect("err creating response")),
                     Err(error) => Ok(Response::builder()
-                        .status(StatusCode::BAD_REQUEST)
+                        .status(StatusCode::INTERNAL_SERVER_ERROR)
                         .body(error.to_string().into())
                         .expect("err creating response")),
                 }
