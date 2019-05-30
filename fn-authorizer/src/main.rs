@@ -1,7 +1,3 @@
-extern crate serde;
-extern crate serde_derive;
-extern crate serde_json;
-
 use lambda_runtime::{error::HandlerError, lambda, Context};
 use serde_derive::Deserialize;
 use serde_json::{json, Value};

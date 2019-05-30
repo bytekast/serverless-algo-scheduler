@@ -1,6 +1,3 @@
-extern crate models;
-extern crate reqwest;
-
 use lambda_runtime::{error::HandlerError, lambda, Context};
 use serde_json::Value;
 

@@ -1,18 +1,10 @@
-extern crate serde;
-extern crate serde_json;
-extern crate uuid;
-
-extern crate models;
-
-use std::env;
-
 use lambda_http::http::StatusCode;
 use lambda_http::{lambda, Body, IntoResponse, Request, RequestExt, Response};
 use lambda_runtime::{error::HandlerError, Context};
-
 use rusoto_core::Region;
 use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput};
 use serde_json::json;
+use std::env;
 use uuid::Uuid;
 
 use models::Schedule;

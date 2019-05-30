@@ -1,20 +1,13 @@
 #[macro_use]
 extern crate maplit;
 
-extern crate chrono;
-extern crate serde;
-extern crate serde_json;
-extern crate uuid;
-
-use std::env;
-
 use chrono::prelude::*;
-
 use rusoto_core::Region;
 use rusoto_dynamodb::{AttributeValue, DynamoDb, DynamoDbClient, QueryInput, ScanInput};
 use serde::{Deserialize, Serialize};
 use std::collections::hash_map::RandomState;
 use std::collections::HashMap;
+use std::env;
 use uuid::Uuid;
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
